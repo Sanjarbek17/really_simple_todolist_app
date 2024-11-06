@@ -1,0 +1,5 @@
+{
+    "autoHide.hideSideBarsOnDebug": true,
+    "autoHide.autoHidePanel": false,
+    "cmake.ignoreCMakeListsMissing": true
+}

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:really_simple_todolist_app/bloc/theme_manager.dart';
+import 'package:really_simple_todolist_app/my_app.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Text('Hello, World!'),
+    return ChangeNotifierProvider(
+      create: (context) => ThemeManager(),
+      child: const MyApp(),
     );
   }
 }
