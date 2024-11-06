@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
+import 'package:really_simple_todolist_app/utils/data_list.dart';
 import 'package:really_simple_todolist_app/widgets/custom_card_widget.dart';
 import 'package:really_simple_todolist_app/widgets/custom_dropdown_button.dart';
 import 'package:really_simple_todolist_app/gen/assets.gen.dart';
@@ -16,12 +17,18 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isHave = true;
 
   String dropdownValue = 'Today';
+  String dropdownValue2 = 'Completed';
 
   List<List<String>> items = [
     ['Today', 'Today'],
     ['Tomorrow', 'Tomorrow'],
     ['Next 7 days', 'Next 7 days'],
     ['Custom', 'Custom'],
+  ];
+
+  List<List<String>> items2 = [
+    ['Completed', 'Completed'],
+    ['Not Completed', 'Not Completed'],
   ];
 
   void onChanged(String? value) {
@@ -45,18 +52,30 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      CustomDropdownButton(
-                        dropdownValue: dropdownValue,
-                        items: items,
-                        onChanged: onChanged,
-                      )
-                    ],
+                  CustomDropdownButton(
+                    dropdownValue: dropdownValue,
+                    items: items,
+                    onChanged: onChanged,
                   ),
                   const SizedBox(height: 20),
-                  const CustomCardWidget()
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return CustomCardWidget(
+                        toDoModel: todoList[index],
+                      );
+                    },
+                    itemCount: todoList.length,
+                  ),
+                  CustomDropdownButton(
+                    dropdownValue: dropdownValue2,
+                    items: items2,
+                    onChanged: onChanged,
+                  ),
+                  const SizedBox(height: 20),
+                  CustomCardWidget(toDoModel: todoList[0]),
                 ],
               ),
             )

@@ -1,71 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
+import 'package:really_simple_todolist_app/models/todo_model.dart';
 
 class CustomCardWidget extends StatelessWidget {
+  final ToDoModel toDoModel;
   const CustomCardWidget({
     super.key,
+    required this.toDoModel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-      decoration: BoxDecoration(
-        color: CustomColors.secondaryColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          // TODO: Make this circle
-          Checkbox(
-            value: false,
-            onChanged: (value) {},
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Do Math Homework', style: context.tm),
-              const SizedBox(height: 16),
-              Text('Today At 16:45', style: context.ts),
-            ],
-          ),
-          const Spacer(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              const SizedBox(height: 50),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Container(
+        width: MediaQuery.sizeOf(context).width,
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        decoration: BoxDecoration(
+          color: CustomColors.secondaryColor,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            // TODO: Make this circle
+            Checkbox(
+              value: toDoModel.isCompleted,
+              onChanged: (value) {},
+            ),
+            SizedBox(
+              width: MediaQuery.sizeOf(context).width * 0.72,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(color: CustomColors.blue, borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.school, size: 14),
-                        const SizedBox(width: 5),
-                        Text('University', style: context.lm),
-                      ],
-                    ),
+                  Text(toDoModel.title, style: context.tm),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Today At ${toDoModel.date.hour}:${toDoModel.date.minute}', style: context.ts),
+                      
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                            decoration: BoxDecoration(color: Color(toDoModel.category.color), borderRadius: BorderRadius.circular(5)),
+                            child: Row(
+                              children: [
+                                Icon(toDoModel.category.icon, size: 14),
+                                const SizedBox(width: 5),
+                                Text(toDoModel.category.name, style: context.lm),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 13),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(border: Border.all(color: CustomColors.purple), borderRadius: BorderRadius.circular(5)),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.flag_outlined, size: 14),
+                                const SizedBox(width: 5),
+                                Text(toDoModel.priority.toString(), style: context.lm),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                  const SizedBox(width: 13),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(border: Border.all(color: CustomColors.purple), borderRadius: BorderRadius.circular(5)),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.flag_outlined, size: 14),
-                        const SizedBox(width: 5),
-                        Text('1', style: context.lm),
-                      ],
-                    ),
-                  )
                 ],
-              )
-            ],
-          )
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
