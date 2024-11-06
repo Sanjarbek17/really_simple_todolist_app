@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:really_simple_todolist_app/core/custom_colors.dart';
+import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 
 final ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.blue,
@@ -27,4 +27,8 @@ final ThemeData darkTheme = ThemeData(
     // selectedIconTheme: IconThemeData(color: Colors.white),
     // unselectedIconTheme: IconThemeData(color: Colors.white),
   ),
+);
+
+const TextTheme textTheme = TextTheme(
+
 );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:really_simple_todolist_app/bloc/theme_manager.dart';
-import 'package:really_simple_todolist_app/core/custom_colors.dart';
-import 'package:really_simple_todolist_app/core/custom_theme.dart';
+import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
+import 'package:really_simple_todolist_app/core/theme/custom_theme.dart';
 import 'package:really_simple_todolist_app/pages/calendar_screen.dart';
 import 'package:really_simple_todolist_app/pages/focuse_screen.dart';
 import 'package:really_simple_todolist_app/pages/home_screen.dart';
