@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
+import 'package:really_simple_todolist_app/pages/task_screen.dart';
 import 'package:really_simple_todolist_app/utils/data_list.dart';
 import 'package:really_simple_todolist_app/widgets/custom_card_widget.dart';
 import 'package:really_simple_todolist_app/widgets/custom_dropdown_button.dart';
@@ -54,28 +55,38 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomDropdownButton(
-                    dropdownValue: dropdownValue,
-                    items: items,
-                    onChanged: onChanged,
-                  ),
+                  CustomDropdownButton(dropdownValue: dropdownValue, items: items, onChanged: onChanged),
                   const SizedBox(height: 20),
                   ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return CustomCardWidget(
                         toDoModel: todoList[index],
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  TaskScreen(
+                              toDoModel: todoList[index],
+                            )),
+                          );
+                        },
                       );
                     },
                     itemCount: todoList.length,
                   ),
-                  CustomDropdownButton(
-                    dropdownValue: dropdownValue2,
-                    items: items2,
-                    onChanged: onChanged,
-                  ),
+                  CustomDropdownButton(dropdownValue: dropdownValue2, items: items2, onChanged: onChanged),
                   const SizedBox(height: 20),
-                  CustomCardWidget(toDoModel: todoList[0]),
+                  CustomCardWidget(
+                    toDoModel: todoList[0],
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TaskScreen(
+                          toDoModel: todoList[0],
+                        )),
+                      );
+                    },
+                  ),
                 ],
               ),
             )
@@ -87,15 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       SvgPicture.asset(Assets.icons.welcome),
                       const SizedBox(height: 20),
-                      Text(
-                        'What do you want to do today?',
-                        style: context.tl,
-                      ),
+                      Text('What do you want to do today?', style: context.tl),
                       const SizedBox(height: 20),
-                      Text(
-                        'Tap + to add your tasks',
-                        style: context.tm,
-                      ),
+                      Text('Tap + to add your tasks', style: context.tm),
                     ],
                   ),
                 ),
