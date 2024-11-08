@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 import 'package:really_simple_todolist_app/models/todo_model.dart';
+import 'package:really_simple_todolist_app/pages/pop_up/edit_task_title.dart';
 import 'package:really_simple_todolist_app/widgets/task_card.dart';
 
 class TaskScreen extends StatelessWidget {
@@ -43,9 +44,7 @@ class TaskScreen extends StatelessWidget {
                 children: [
                   Checkbox(
                     value: toDoModel.isCompleted,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                     onChanged: (value) {},
                   ),
                   Column(
@@ -59,7 +58,17 @@ class TaskScreen extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  const Icon(Icons.border_color_outlined),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const EditTaskTitle();
+                        },
+                      );
+                    },
+                    icon: const Icon(Icons.border_color_outlined),
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
@@ -116,7 +125,8 @@ class TaskScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
