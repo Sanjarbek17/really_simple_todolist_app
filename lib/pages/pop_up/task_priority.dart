@@ -51,7 +51,9 @@ class TaskPriority extends StatelessWidget {
           child: Text('Cancel', style: context.tm?.copyWith(color: CustomColors.purple)),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           style: ElevatedButton.styleFrom(minimumSize: const Size(150, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), backgroundColor: CustomColors.purple),
           child: Text(priority == null ? 'Save' : 'Edit', style: context.tm),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
+import 'package:really_simple_todolist_app/pages/pop_up/task_priority.dart';
 import 'package:really_simple_todolist_app/utils/data_list.dart';
 
 class Category extends StatelessWidget {
@@ -56,7 +57,17 @@ class Category extends StatelessWidget {
           child: Text('Cancel', style: context.tm?.copyWith(color: CustomColors.purple)),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            if (title == null) {
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return const TaskPriority();
+                },
+              );
+            }
+          },
           style: ElevatedButton.styleFrom(minimumSize: const Size(150, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), backgroundColor: CustomColors.purple),
           child: Text(title == null ? 'Save' : 'Edit', style: context.tm),
         ),
