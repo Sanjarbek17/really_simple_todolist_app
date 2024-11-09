@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 import 'package:really_simple_todolist_app/models/todo_model.dart';
+import 'package:really_simple_todolist_app/pages/pop_up/category.dart';
 import 'package:really_simple_todolist_app/pages/pop_up/edit_task_title.dart';
+import 'package:really_simple_todolist_app/pages/pop_up/show_date_time.dart';
 import 'package:really_simple_todolist_app/widgets/task_card.dart';
 
 class TaskScreen extends StatelessWidget {
@@ -76,12 +78,23 @@ class TaskScreen extends StatelessWidget {
                 toDoModel: toDoModel,
                 icon: Icons.timer_outlined,
                 title: 'Task Time:',
+                onTap: () {
+                    showDateTimePicker(context:context, toDoModel: toDoModel);
+                  },
                 child: Text('Today At ${toDoModel.date.hour}:${toDoModel.date.minute}', style: context.ll),
               ),
               TaskCard(
                 toDoModel: toDoModel,
                 icon: Icons.sell_outlined,
                 title: 'Task Category:',
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const Category();
+                    },
+                  );
+                },
                 child: Row(
                   children: [
                     Icon(toDoModel.category.icon),

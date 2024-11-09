@@ -8,12 +8,13 @@ class TaskCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final Widget child;
+  final void Function()? onTap;
   const TaskCard({
     super.key,
     required this.toDoModel,
     required this.icon,
     required this.title,
-    required this.child,
+    required this.child, this.onTap,
   });
 
   final ToDoModel toDoModel;
@@ -31,13 +32,16 @@ class TaskCard extends StatelessWidget {
             style: context.tm,
           ),
           const Spacer(),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: CustomColors.secondaryColor,
+          InkWell(
+            onTap: onTap,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: CustomColors.secondaryColor,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: child,
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: child,
           ),
         ],
       ),
