@@ -20,9 +20,12 @@ class TaskScreen extends StatelessWidget {
         appBar: AppBar(
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: CustomColors.thirdColor),
-              child: const Icon(Icons.close),
+            child: InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: CustomColors.thirdColor),
+                child: const Icon(Icons.close),
+              ),
             ),
           ),
           actions: [

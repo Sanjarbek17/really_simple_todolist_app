@@ -6,6 +6,7 @@ import 'package:really_simple_todolist_app/utils/data_list.dart';
 import 'package:really_simple_todolist_app/widgets/custom_card_widget.dart';
 import 'package:really_simple_todolist_app/widgets/custom_dropdown_button.dart';
 import 'package:really_simple_todolist_app/gen/assets.gen.dart';
+import 'package:really_simple_todolist_app/widgets/list_of_todo_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -57,23 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   CustomDropdownButton(dropdownValue: dropdownValue, items: items, onChanged: onChanged),
                   const SizedBox(height: 20),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return CustomCardWidget(
-                        toDoModel: todoList[index],
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>  TaskScreen(
-                              toDoModel: todoList[index],
-                            )),
-                          );
-                        },
-                      );
-                    },
-                    itemCount: todoList.length,
-                  ),
+                  ListOfTodoCards(todoList: todoList),
                   CustomDropdownButton(dropdownValue: dropdownValue2, items: items2, onChanged: onChanged),
                   const SizedBox(height: 20),
                   CustomCardWidget(
