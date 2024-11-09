@@ -3,8 +3,10 @@ import 'package:really_simple_todolist_app/core/extension/build_context_extensio
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 import 'package:really_simple_todolist_app/models/todo_model.dart';
 import 'package:really_simple_todolist_app/pages/pop_up/category.dart';
+import 'package:really_simple_todolist_app/pages/pop_up/delete_task.dart';
 import 'package:really_simple_todolist_app/pages/pop_up/edit_task_title.dart';
 import 'package:really_simple_todolist_app/pages/pop_up/show_date_time.dart';
+import 'package:really_simple_todolist_app/pages/pop_up/task_priority.dart';
 import 'package:really_simple_todolist_app/widgets/task_card.dart';
 
 class TaskScreen extends StatelessWidget {
@@ -79,8 +81,8 @@ class TaskScreen extends StatelessWidget {
                 icon: Icons.timer_outlined,
                 title: 'Task Time:',
                 onTap: () {
-                    showDateTimePicker(context:context, toDoModel: toDoModel);
-                  },
+                  showDateTimePicker(context: context, toDoModel: toDoModel);
+                },
                 child: Text('Today At ${toDoModel.date.hour}:${toDoModel.date.minute}', style: context.ll),
               ),
               TaskCard(
@@ -107,11 +109,24 @@ class TaskScreen extends StatelessWidget {
                 toDoModel: toDoModel,
                 icon: Icons.flag_outlined,
                 title: 'Task Priority:',
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return TaskPriority(priority: toDoModel.priority);
+                    },
+                  );
+                },
                 child: Text(toDoModel.priority.toString(), style: context.ll),
               ),
               const SizedBox(height: 20),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => DeleteTask(title: toDoModel.title),
+                  );
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

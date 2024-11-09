@@ -4,7 +4,8 @@ import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 import 'package:really_simple_todolist_app/utils/data_list.dart';
 
 class Category extends StatelessWidget {
-  const Category({super.key});
+  final String? title;
+  const Category({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class Category extends StatelessWidget {
       ),
       content: SizedBox(
         width: MediaQuery.sizeOf(context).width * 0.8,
-        child:  Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Divider(),
@@ -33,17 +34,10 @@ class Category extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(category.color),
-                            minimumSize: const Size(50, 70),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            shadowColor: Colors.transparent,
-                          ),
-                          child: Icon(category.icon, color: Colors.white, size: 30,),
+                          style: ElevatedButton.styleFrom(backgroundColor: Color(category.color), minimumSize: const Size(50, 70), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), shadowColor: Colors.transparent),
+                          child: Icon(category.icon, color: Colors.white, size: 30),
                         ),
-                         Text(category.name, style: context.tm)
+                        Text(category.name, style: context.tm)
                       ],
                     ),
                   )
@@ -55,34 +49,16 @@ class Category extends StatelessWidget {
       actionsAlignment: MainAxisAlignment.spaceBetween,
       actions: [
         ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            minimumSize: const Size(140, 50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            shadowColor: Colors.transparent,
-          ),
-          child: Text(
-            'Save',
-            style: context.tm?.copyWith(
-              color: CustomColors.purple,
-            ),
-          ),
-        ),
-        ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(150, 50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            backgroundColor: CustomColors.purple,
-          ),
-          child: Text('Cancel', style: context.tm),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.transparent, minimumSize: const Size(140, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), shadowColor: Colors.transparent),
+          child: Text('Cancel', style: context.tm?.copyWith(color: CustomColors.purple)),
+        ),
+        ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(minimumSize: const Size(150, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), backgroundColor: CustomColors.purple),
+          child: Text(title == null ? 'Save' : 'Edit', style: context.tm),
         ),
       ],
     );

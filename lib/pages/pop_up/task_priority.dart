@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 
-class EditTaskTitle extends StatelessWidget {
-  final String? title;
-  final String? description;
-  const EditTaskTitle({super.key, this.title, this.description});
+class TaskPriority extends StatelessWidget {
+  final int? priority;
+  const TaskPriority({super.key, this.priority});
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +19,25 @@ class EditTaskTitle extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Divider(),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-                hintText: title ?? 'Title',
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-                hintText: description ?? 'Description',
-              ),
-            ),
+            GridView.count(
+              crossAxisCount: 4,
+              shrinkWrap: true,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              children: List.generate(10, (index) {
+                return ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(minimumSize: const Size(50, 50), backgroundColor: index != priority ? CustomColors.prioritybg : CustomColors.purple, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.flag_outlined, color: Colors.white),
+                      Text('${index + 1}', style: context.tm),
+                    ],
+                  ),
+                );
+              }),
+            )
           ],
         ),
       ),
@@ -48,7 +53,7 @@ class EditTaskTitle extends StatelessWidget {
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(minimumSize: const Size(150, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), backgroundColor: CustomColors.purple),
-          child: Text(title == null ? 'Save' : 'Edit', style: context.tm),
+          child: Text(priority == null ? 'Save' : 'Edit', style: context.tm),
         ),
       ],
     );
