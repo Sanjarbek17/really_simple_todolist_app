@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:really_simple_todolist_app/models/category_model.dart';
-import 'package:really_simple_todolist_app/models/todo_model.dart';
+import 'package:really_simple_todolist_app/data/models/category_model.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
 
 List<CategoryModel> categoryList = [
   const CategoryModel(id: 1, name: 'Work', icon: Icons.work, color: 0xFFE57373),

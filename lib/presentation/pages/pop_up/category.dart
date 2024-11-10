@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
-import 'package:really_simple_todolist_app/pages/pop_up/task_priority.dart';
-import 'package:really_simple_todolist_app/utils/data_list.dart';
+import 'package:really_simple_todolist_app/presentation/pages/pop_up/task_priority.dart';
+import 'package:really_simple_todolist_app/core/utils/data_list.dart';
 
 class Category extends StatelessWidget {
   final String? title;

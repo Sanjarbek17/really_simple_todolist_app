@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
-import 'package:really_simple_todolist_app/pages/task_screen.dart';
-import 'package:really_simple_todolist_app/utils/data_list.dart';
-import 'package:really_simple_todolist_app/widgets/custom_card_widget.dart';
-import 'package:really_simple_todolist_app/widgets/custom_dropdown_button.dart';
+import 'package:really_simple_todolist_app/presentation/pages/task_screen.dart';
+import 'package:really_simple_todolist_app/core/utils/data_list.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/custom_card_widget.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/custom_dropdown_button.dart';
 import 'package:really_simple_todolist_app/gen/assets.gen.dart';
-import 'package:really_simple_todolist_app/widgets/list_of_todo_card.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/list_of_todo_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
-import 'package:really_simple_todolist_app/models/todo_model.dart';
-import 'package:really_simple_todolist_app/pages/pop_up/category.dart';
-import 'package:really_simple_todolist_app/pages/pop_up/delete_task.dart';
-import 'package:really_simple_todolist_app/pages/pop_up/edit_task_title.dart';
-import 'package:really_simple_todolist_app/pages/pop_up/show_date_time.dart';
-import 'package:really_simple_todolist_app/pages/pop_up/task_priority.dart';
-import 'package:really_simple_todolist_app/widgets/task_card.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
+import 'package:really_simple_todolist_app/presentation/pages/pop_up/category.dart';
+import 'package:really_simple_todolist_app/presentation/pages/pop_up/delete_task.dart';
+import 'package:really_simple_todolist_app/presentation/pages/pop_up/edit_task_title.dart';
+import 'package:really_simple_todolist_app/presentation/pages/pop_up/show_date_time.dart';
+import 'package:really_simple_todolist_app/presentation/pages/pop_up/task_priority.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/task_card.dart';
 
 class TaskScreen extends StatelessWidget {
   final ToDoModel toDoModel;

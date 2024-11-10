@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:really_simple_todolist_app/models/todo_model.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
 
 part 'todo_state.dart';
 part 'todo_event.dart';

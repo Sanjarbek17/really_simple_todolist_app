@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
-import 'package:really_simple_todolist_app/pages/calendar_screen.dart';
-import 'package:really_simple_todolist_app/pages/focuse_screen.dart';
-import 'package:really_simple_todolist_app/pages/home_screen.dart';
-import 'package:really_simple_todolist_app/pages/pop_up/add_task.dart';
-import 'package:really_simple_todolist_app/pages/profile_screen.dart';
+import 'package:really_simple_todolist_app/presentation/pages/calendar_screen.dart';
+import 'package:really_simple_todolist_app/presentation/pages/focuse_screen.dart';
+import 'package:really_simple_todolist_app/presentation/pages/home_screen.dart';
+import 'package:really_simple_todolist_app/presentation/pages/pop_up/add_task.dart';
+import 'package:really_simple_todolist_app/presentation/pages/profile_screen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

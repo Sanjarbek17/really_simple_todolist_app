@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:really_simple_todolist_app/models/category_model.dart';
+import 'package:really_simple_todolist_app/data/models/category_model.dart';
 
 class ToDoModel extends Equatable {
   final String title;

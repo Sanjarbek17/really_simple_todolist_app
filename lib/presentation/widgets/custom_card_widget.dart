@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
-import 'package:really_simple_todolist_app/models/todo_model.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
 
 class CustomCardWidget extends StatelessWidget {
   final ToDoModel toDoModel;

@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:really_simple_todolist_app/models/todo_model.dart';
-import 'package:really_simple_todolist_app/pages/task_screen.dart';
-import 'package:really_simple_todolist_app/widgets/custom_card_widget.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
+import 'package:really_simple_todolist_app/presentation/pages/task_screen.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/custom_card_widget.dart';
 
 class ListOfTodoCards extends StatelessWidget {
   final List<ToDoModel> todoList;

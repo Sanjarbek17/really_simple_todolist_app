@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
-import 'package:really_simple_todolist_app/utils/data_list.dart';
-import 'package:really_simple_todolist_app/widgets/list_of_todo_card.dart';
-import 'package:really_simple_todolist_app/widgets/today_or_completed_button.dart';
-import 'package:really_simple_todolist_app/widgets/weeks_day_list.dart';
+import 'package:really_simple_todolist_app/core/utils/data_list.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/list_of_todo_card.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/today_or_completed_button.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/weeks_day_list.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
