@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
-import 'package:really_simple_todolist_app/presentation/pages/pop_up/task_priority.dart';
+import 'package:really_simple_todolist_app/data/models/category_model.dart';
 import 'package:really_simple_todolist_app/core/utils/data_list.dart';
 
-class Category extends StatelessWidget {
+class Category extends StatefulWidget {
   final String? title;
   const Category({super.key, this.title});
+
+  @override
+  State<Category> createState() => _CategoryState();
+}
+
+class _CategoryState extends State<Category> {
+  int selectedId = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +38,33 @@ class Category extends StatelessWidget {
               crossAxisSpacing: 10,
               children: categoryList
                   .map(
-                    (category) => Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(backgroundColor: Color(category.color), minimumSize: const Size(50, 70), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), shadowColor: Colors.transparent),
-                          child: Icon(category.icon, color: Colors.white, size: 30),
-                        ),
-                        Text(category.name, style: context.tm)
-                      ],
+                    (CategoryModel category) => Container(
+                      // padding: const EdgeInsets.only(top: 10),
+                      height: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: selectedId == category.id ? Colors.white.withOpacity(0.5) : Colors.transparent,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                selectedId = category.id;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(category.color),
+                              minimumSize: const Size(50, 70),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                              shadowColor: Colors.transparent,
+                            ),
+                            child: Icon(category.icon, color: Colors.white, size: 30),
+                          ),
+                          Text(category.name, style: context.tm)
+                        ],
+                      ),
                     ),
                   )
                   .toList(),
@@ -58,18 +83,12 @@ class Category extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {
-            if (title == null) {
-              Navigator.pop(context);
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return const TaskPriority();
-                },
-              );
+            if (widget.title == null) {
+              Navigator.pop(context, selectedId);
             }
           },
           style: ElevatedButton.styleFrom(minimumSize: const Size(150, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), backgroundColor: CustomColors.purple),
-          child: Text(title == null ? 'Save' : 'Edit', style: context.tm),
+          child: Text(widget.title == null ? 'Save' : 'Edit', style: context.tm),
         ),
       ],
     );

@@ -6,7 +6,7 @@ class TodoRepository {
 
   TodoRepository({required TodoService todoService}) : _todoService = todoService;
 
-  Stream<List<ToDoModel>> getTodos() => _todoService.todos;
+  Stream<List<ToDoModel>> getTodos() => _todoService.getTodos();
 
   Future<void> add(ToDoModel todo) async {
     _todoService.add(todo);

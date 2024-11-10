@@ -11,18 +11,21 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc({required TodoRepository todoRepository})
       : _todoRepository = todoRepository,
         super(const TodoState()) {
-    on<FetchTodo>(_onFetchTodo);
+    on<GetTodo>(_onGetTodo);
     on<AddTodo>(_onAddTodo);
     on<UpdateTodo>(_onUpdateTodo);
     on<DeleteTodo>(_onDeleteTodo);
   }
 
-  void _onFetchTodo(FetchTodo event, Emitter<TodoState> emit) {
+  Future<void> _onGetTodo(GetTodo event, Emitter<TodoState> emit) async {
     emit(state.copyWith(status: TodoStatus.loading));
-    emit.forEach(
+    await emit.forEach<List<ToDoModel>>(
       _todoRepository.getTodos(),
       onData: (todos) {
-        return state.copyWith(todoList: todos, status: TodoStatus.loaded);
+        return state.copyWith(
+          todoList: todos,
+          status: TodoStatus.loaded,
+        );
       },
       onError: (_, __) {
         return state.copyWith(status: TodoStatus.error);
@@ -30,15 +33,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     );
   }
 
-  void _onAddTodo(AddTodo event, Emitter<TodoState> emit) {
+  Future<void> _onAddTodo(AddTodo event, Emitter<TodoState> emit) async {
     _todoRepository.add(event.todo);
   }
 
-  void _onUpdateTodo(UpdateTodo event, Emitter<TodoState> emit) {
+  Future<void> _onUpdateTodo(UpdateTodo event, Emitter<TodoState> emit) async {
     _todoRepository.update(event.todo);
   }
 
-  void _onDeleteTodo(DeleteTodo event, Emitter<TodoState> emit) {
+  Future<void> _onDeleteTodo(DeleteTodo event, Emitter<TodoState> emit) async {
     _todoRepository.delete(event.todo);
   }
 }

@@ -7,19 +7,21 @@ import 'package:rxdart/rxdart.dart';
 class TodoService {
   final SharedPreferences _prefs;
 
-  TodoService({required SharedPreferences prefs}) : _prefs = prefs;
+  TodoService({required SharedPreferences prefs}) : _prefs = prefs {
+    _fetchTodos();
+  }
 
-  late final _todoStreamController = BehaviorSubject<List<ToDoModel>>.seeded([]);
+  late final _todoStreamController = BehaviorSubject<List<ToDoModel>>.seeded(const []);
 
   final String _todoKey = 'todos';
 
-  void getTodos() {
+  void _fetchTodos() {
     final List<String> todos = _prefs.getStringList(_todoKey) ?? [];
     final List<ToDoModel> todoModels = todos.map((e) => ToDoModel.fromJson(jsonDecode(e))).toList();
     _todoStreamController.add(todoModels);
   }
 
-  Stream<List<ToDoModel>> get todos => _todoStreamController.asBroadcastStream();
+  Stream<List<ToDoModel>> getTodos() => _todoStreamController.asBroadcastStream();
 
   Future<void> add(ToDoModel todo) async {
     final List<ToDoModel> todos = [..._todoStreamController.value];

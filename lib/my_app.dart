@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
+import 'package:really_simple_todolist_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 import 'package:really_simple_todolist_app/presentation/pages/calendar_screen.dart';
 import 'package:really_simple_todolist_app/presentation/pages/focuse_screen.dart';
 import 'package:really_simple_todolist_app/presentation/pages/home_screen.dart';
@@ -54,14 +57,17 @@ class _MyAppState extends State<MyApp> {
           alignment: Alignment.center,
           child: IconButton(
             style: ElevatedButton.styleFrom(backgroundColor: CustomColors.purple, minimumSize: const Size(64, 64)),
-            onPressed: () {
+            onPressed: () async {
               // themeManager.toogleTheme();
-              showModalBottomSheet(
+             ToDoModel? todoModel = await showModalBottomSheet<ToDoModel>(
                 context: context,
                 builder: (context) {
                   return const AddTask();
                 },
               );
+              if (todoModel != null && context.mounted) {
+                BlocProvider.of<TodoBloc>(context).add(AddTodo(todoModel));
+              }
             },
             icon: const Icon(Icons.add, size: 32, color: Colors.white),
           ),

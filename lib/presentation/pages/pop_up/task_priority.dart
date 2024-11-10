@@ -2,9 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 
-class TaskPriority extends StatelessWidget {
+class TaskPriority extends StatefulWidget {
   final int? priority;
   const TaskPriority({super.key, this.priority});
+
+  @override
+  State<TaskPriority> createState() => _TaskPriorityState();
+}
+
+class _TaskPriorityState extends State<TaskPriority> {
+  int? priority;
+
+
+  @override
+  void initState() {
+    super.initState();
+    priority = widget.priority ?? 1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +39,23 @@ class TaskPriority extends StatelessWidget {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               children: List.generate(10, (index) {
+                index++;
                 return ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(minimumSize: const Size(50, 50), backgroundColor: index != priority ? CustomColors.prioritybg : CustomColors.purple, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))),
+                  onPressed: () {
+                    setState(() {
+                      priority = index;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(50, 50),
+                    backgroundColor: index != priority ? CustomColors.prioritybg : CustomColors.purple,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(Icons.flag_outlined, color: Colors.white),
-                      Text('${index + 1}', style: context.tm),
+                      Text('$index', style: context.tm),
                     ],
                   ),
                 );
@@ -52,10 +75,10 @@ class TaskPriority extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, priority);
           },
           style: ElevatedButton.styleFrom(minimumSize: const Size(150, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), backgroundColor: CustomColors.purple),
-          child: Text(priority == null ? 'Save' : 'Edit', style: context.tm),
+          child: Text(widget.priority == null ? 'Save' : 'Edit', style: context.tm),
         ),
       ],
     );
