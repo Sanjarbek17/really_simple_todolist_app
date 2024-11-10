@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:really_simple_todolist_app/core/utils/data_list.dart';
 import 'package:really_simple_todolist_app/data/models/category_model.dart';
 
 class ToDoModel extends Equatable {
@@ -47,7 +48,7 @@ class ToDoModel extends Equatable {
     };
   }
 
-  factory ToDoModel.fromJson(Map<String, dynamic> map, List<CategoryModel> categoryList) {
+  factory ToDoModel.fromJson(Map<String, dynamic> map) {
     return ToDoModel(
       title: map['title'],
       description: map['description'],

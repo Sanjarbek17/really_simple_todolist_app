@@ -40,6 +40,8 @@ dependencies:
   dropdown_button2: ^2.3.9
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
+  shared_preferences: ^2.3.3
+  rxdart: ^0.28.0
   
 
 dev_dependencies:
