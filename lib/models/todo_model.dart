@@ -36,6 +36,28 @@ class ToDoModel extends Equatable {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+      'category': category.id,
+      'date': date.millisecondsSinceEpoch,
+      'priority': priority,
+      'isCompleted': isCompleted,
+    };
+  }
+
+  factory ToDoModel.fromJson(Map<String, dynamic> map, List<CategoryModel> categoryList) {
+    return ToDoModel(
+      title: map['title'],
+      description: map['description'],
+      category: categoryList.firstWhere((element) => element.id == map['category']),
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
+      priority: map['priority'],
+      isCompleted: map['isCompleted'],
+    );
+  }
+
 
   @override
   String toString() {

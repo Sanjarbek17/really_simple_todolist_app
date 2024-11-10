@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^2.0.13
   dropdown_button2: ^2.3.9
   equatable: ^2.0.5
+  flutter_bloc: ^8.1.6
   
 
 dev_dependencies:

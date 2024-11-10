@@ -17,7 +17,6 @@ class _MyAppState extends State<MyApp> {
   final List<Widget> _screens = const [
     HomeScreen(),
     CalendarScreen(),
-    SizedBox(),
     FocuseScreen(),
     ProfileScreen(),
   ];
@@ -39,6 +38,9 @@ class _MyAppState extends State<MyApp> {
         controller: _pageController,
         children: _screens,
         onPageChanged: (index) {
+          if (index >= 2) {
+            index++;
+          }
           setState(() {
             _currentIndex = index;
           });
@@ -51,10 +53,7 @@ class _MyAppState extends State<MyApp> {
         child: Align(
           alignment: Alignment.center,
           child: IconButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: CustomColors.purple,
-              minimumSize: const Size(64, 64),
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: CustomColors.purple, minimumSize: const Size(64, 64)),
             onPressed: () {
               // themeManager.toogleTheme();
               showModalBottomSheet(
@@ -64,11 +63,7 @@ class _MyAppState extends State<MyApp> {
                 },
               );
             },
-            icon: const Icon(
-              Icons.add,
-              size: 32,
-              color: Colors.white,
-            ),
+            icon: const Icon(Icons.add, size: 32, color: Colors.white),
           ),
         ),
       ),
@@ -80,6 +75,9 @@ class _MyAppState extends State<MyApp> {
           setState(() {
             _currentIndex = index;
           });
+          if (index >= 2) {
+            index--;
+          }
           _pageController.animateTo(
             MediaQuery.of(context).size.width * index,
             duration: const Duration(milliseconds: 300),
