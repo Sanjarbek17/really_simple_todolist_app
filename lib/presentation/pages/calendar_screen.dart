@@ -93,16 +93,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       }
                       if (state.status == TodoStatus.loaded) {
                         List<ToDoModel> todoList = state.todoList;
-                        return ListOfTodoCards(
-                          todoList: isCompleted
-                              ? todoList
-                                  .getRange(
-                                    0,
-                                    3,
-                                  )
-                                  .toList()
-                              : todoList.getRange(0, 1).toList(),
-                        );
+                        if (todoList.isEmpty) {
+                          return const EmptyCardsPage();
+                        }
+                        if (isCompleted) {
+                          todoList = todoList.where((element) => element.isCompleted).toList();
+                        } else {
+                          todoList = todoList.where((element) => element.date.day == now.day && !element.isCompleted).toList();
+                        }
+                        return ListOfTodoCards(todoList: todoList);
                       }
                       return const EmptyCardsPage();
                     },

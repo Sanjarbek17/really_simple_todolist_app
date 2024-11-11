@@ -5,7 +5,8 @@ import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 class WeekDayList extends StatefulWidget {
   final DateTime now;
   const WeekDayList({
-    super.key, required this.now,
+    super.key,
+    required this.now,
   });
 
   @override
