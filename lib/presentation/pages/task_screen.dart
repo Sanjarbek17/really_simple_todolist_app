@@ -66,8 +66,14 @@ class _TaskScreenState extends State<TaskScreen> {
                 children: [
                   Checkbox(
                     value: newTodo.isCompleted,
+                    activeColor: CustomColors.purple,
+                    checkColor: CustomColors.purple,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      newTodo = newTodo.copyWith(isCompleted: value);
+                      context.read<TodoBloc>().add(UpdateTodo(newTodo, widget.toDoModel));
+                      setState(() {});
+                    },
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -35,7 +35,7 @@ class TodoService {
     final index = todos.indexWhere((element) => element == oldTodo);
     if (index == -1) {
       throw Exception('Todo not found: $todo');
-    };
+    }
     todos[index] = todo;
     _todoStreamController.add(todos);
     await _prefs.setStringList(_todoKey, todos.map((e) => jsonEncode(e.toJson())).toList());
