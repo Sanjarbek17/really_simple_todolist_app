@@ -8,7 +8,7 @@ Future<DateTime?> showDateTimePicker({
   DateTime? lastDate,
 }) async {
   DateTime initialDate = toDoModel?.date ?? DateTime.now();
-  firstDate ??= DateTime.now();
+  firstDate ??= DateTime(2000);
   lastDate ??= DateTime(2100);
 
   final DateTime? selectedDate = await showDatePicker(

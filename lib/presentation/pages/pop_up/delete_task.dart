@@ -4,7 +4,8 @@ import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 
 class DeleteTask extends StatelessWidget {
   final String title;
-  const DeleteTask({super.key, required this.title});
+  final void Function() onDelete;
+  const DeleteTask({super.key, required this.title, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class DeleteTask extends StatelessWidget {
           child: Text('Cancel', style: context.tm?.copyWith(color: CustomColors.purple)),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: onDelete,
           style: ElevatedButton.styleFrom(minimumSize: const Size(150, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), backgroundColor: CustomColors.purple),
           child: Text('Delete', style: context.tm),
         ),

@@ -12,8 +12,8 @@ class TodoRepository {
     _todoService.add(todo);
   }
 
-  Future<void> update(ToDoModel todo) async {
-    _todoService.update(todo);
+  Future<void> update(ToDoModel todo, ToDoModel oldTodo) async {
+    _todoService.update(todo, oldTodo);
   }
 
   Future<void> delete(ToDoModel todo) async {

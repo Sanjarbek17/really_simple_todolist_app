@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
 
-class EditTaskTitle extends StatelessWidget {
-  final String? title;
-  final String? description;
-  const EditTaskTitle({super.key, this.title, this.description});
+class EditTaskTitle extends StatefulWidget {
+  final ToDoModel toDoModel;
+  const EditTaskTitle({super.key, required this.toDoModel});
+
+  @override
+  State<EditTaskTitle> createState() => _EditTaskTitleState();
+}
+
+class _EditTaskTitleState extends State<EditTaskTitle> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    titleController.text = widget.toDoModel.title;
+    descriptionController.text = widget.toDoModel.description;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +36,16 @@ class EditTaskTitle extends StatelessWidget {
           children: [
             const Divider(),
             TextField(
+              controller: titleController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-                hintText: title ?? 'Title',
               ),
             ),
             const SizedBox(height: 10),
             TextField(
+              controller: descriptionController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
-                hintText: description ?? 'Description',
               ),
             ),
           ],
@@ -46,9 +61,17 @@ class EditTaskTitle extends StatelessWidget {
           child: Text('Cancel', style: context.tm?.copyWith(color: CustomColors.purple)),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(
+              context,
+              widget.toDoModel.copyWith(
+                title: titleController.text,
+                description: descriptionController.text,
+              ),
+            );
+          },
           style: ElevatedButton.styleFrom(minimumSize: const Size(150, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), backgroundColor: CustomColors.purple),
-          child: Text(title == null ? 'Save' : 'Edit', style: context.tm),
+          child: Text('Edit', style: context.tm),
         ),
       ],
     );

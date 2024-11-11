@@ -22,7 +22,7 @@ class ToDoModel extends Equatable {
   ToDoModel copyWith({
     String? title,
     String? description,
-    CategoryModel? category,
+    int? categoryId,
     DateTime? date,
     int? priority,
     bool? isCompleted,
@@ -30,7 +30,13 @@ class ToDoModel extends Equatable {
     return ToDoModel(
       title: title ?? this.title,
       description: description ?? this.description,
-      category: category ?? this.category,
+      category: categoryId != null
+          ? categoryList
+              .where(
+                (element) => element.id == categoryId,
+              )
+              .first
+          : category,
       date: date ?? this.date,
       priority: priority ?? this.priority,
       isCompleted: isCompleted ?? this.isCompleted,
@@ -59,12 +65,11 @@ class ToDoModel extends Equatable {
     );
   }
 
-
   @override
   String toString() {
     return 'ToDoModel(title: $title, description: $description, category: $category, date: $date, priority: $priority, isCompleted: $isCompleted)';
   }
-  
+
   @override
   List<Object?> get props => [title, description];
 }

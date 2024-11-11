@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 import 'package:really_simple_todolist_app/data/models/todo_model.dart';
+import 'package:really_simple_todolist_app/presentation/bloc/todo_bloc/todo_bloc.dart';
 import 'package:really_simple_todolist_app/presentation/pages/pop_up/category.dart';
 import 'package:really_simple_todolist_app/presentation/pages/pop_up/delete_task.dart';
 import 'package:really_simple_todolist_app/presentation/pages/pop_up/edit_task_title.dart';
@@ -9,9 +11,22 @@ import 'package:really_simple_todolist_app/presentation/pages/pop_up/show_date_t
 import 'package:really_simple_todolist_app/presentation/pages/pop_up/task_priority.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/task_card.dart';
 
-class TaskScreen extends StatelessWidget {
+class TaskScreen extends StatefulWidget {
   final ToDoModel toDoModel;
   const TaskScreen({super.key, required this.toDoModel});
+
+  @override
+  State<TaskScreen> createState() => _TaskScreenState();
+}
+
+class _TaskScreenState extends State<TaskScreen> {
+  late ToDoModel newTodo;
+
+  @override
+  void initState() {
+    super.initState();
+    newTodo = widget.toDoModel;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,29 +65,30 @@ class TaskScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Checkbox(
-                    value: toDoModel.isCompleted,
+                    value: newTodo.isCompleted,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                     onChanged: (value) {},
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(toDoModel.title, style: context.tl),
+                      Text(newTodo.title, style: context.tl),
                       SizedBox(
                         width: MediaQuery.sizeOf(context).width * 0.62,
-                        child: Text(toDoModel.description, style: context.tm?.copyWith(color: CustomColors.text2), maxLines: 1),
+                        child: Text(newTodo.description, style: context.tm?.copyWith(color: CustomColors.text2), maxLines: 1),
                       ),
                     ],
                   ),
                   const Spacer(),
                   IconButton(
-                    onPressed: () {
-                      showDialog(
+                    onPressed: () async {
+                      newTodo = await showDialog(
                         context: context,
                         builder: (context) {
-                          return const EditTaskTitle();
+                          return EditTaskTitle(toDoModel: newTodo);
                         },
                       );
+                      setState(() {});
                     },
                     icon: const Icon(Icons.border_color_outlined),
                   ),
@@ -80,64 +96,80 @@ class TaskScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TaskCard(
-                toDoModel: toDoModel,
+                toDoModel: newTodo,
                 icon: Icons.timer_outlined,
                 title: 'Task Time:',
-                onTap: () {
-                  showDateTimePicker(context: context, toDoModel: toDoModel);
+                onTap: () async {
+                  DateTime? dateTime = await showDateTimePicker(context: context, toDoModel: newTodo);
+                  if (dateTime != null && context.mounted) {
+                    newTodo = newTodo.copyWith(date: dateTime);
+                    setState(() {});
+                  }
                 },
-                child: Text('Today At ${toDoModel.date.hour}:${toDoModel.date.minute}', style: context.ll),
+                child: Text('Today At ${newTodo.date.hour}:${newTodo.date.minute}', style: context.ll),
               ),
               TaskCard(
-                toDoModel: toDoModel,
+                toDoModel: newTodo,
                 icon: Icons.sell_outlined,
                 title: 'Task Category:',
-                onTap: () {
-                  showDialog(
+                onTap: () async {
+                  int? categoryId = await showDialog<int>(
                     context: context,
                     builder: (context) {
                       return const Category();
                     },
                   );
+                  if (categoryId != null && context.mounted) {
+                    newTodo = newTodo.copyWith(categoryId: categoryId);
+                    setState(() {});
+                  }
                 },
                 child: Row(
                   children: [
-                    Icon(toDoModel.category.icon),
+                    Icon(newTodo.category.icon),
                     const SizedBox(width: 10),
-                    Text(toDoModel.category.name, style: context.ll),
+                    Text(newTodo.category.name, style: context.ll),
                   ],
                 ),
               ),
               TaskCard(
-                toDoModel: toDoModel,
+                toDoModel: newTodo,
                 icon: Icons.flag_outlined,
                 title: 'Task Priority:',
-                onTap: () {
-                  showDialog(
+                onTap: () async {
+                  int? priority = await showDialog<int>(
                     context: context,
                     builder: (context) {
-                      return TaskPriority(priority: toDoModel.priority);
+                      return TaskPriority(priority: newTodo.priority);
                     },
                   );
+                  if (priority != null && context.mounted) {
+                    newTodo = newTodo.copyWith(priority: priority);
+                    setState(() {});
+                  }
                 },
-                child: Text(toDoModel.priority.toString(), style: context.ll),
+                child: Text(newTodo.priority.toString(), style: context.ll),
               ),
               const SizedBox(height: 20),
               TextButton(
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (context) => DeleteTask(title: toDoModel.title),
+                    builder: (context) => DeleteTask(
+                      title: newTodo.title,
+                      onDelete: () {
+                        context.read<TodoBloc>().add(DeleteTodo(newTodo));
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                    ),
                   );
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Icon(Icons.delete_outline, color: CustomColors.red),
-                    Text(
-                      'Delete Task',
-                      style: context.tm?.copyWith(color: CustomColors.red),
-                    ),
+                    Text('Delete Task', style: context.tm?.copyWith(color: CustomColors.red)),
                   ],
                 ),
               ),
@@ -146,12 +178,11 @@ class TaskScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(300, 48),
-                        backgroundColor: CustomColors.purple,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                      ),
+                      onPressed: () {
+                        context.read<TodoBloc>().add(UpdateTodo(newTodo, widget.toDoModel));
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(minimumSize: const Size(300, 48), backgroundColor: CustomColors.purple, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4))),
                       child: Text('Edit Task', style: context.tm),
                     ),
                   ),

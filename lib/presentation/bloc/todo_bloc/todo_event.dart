@@ -12,8 +12,9 @@ class AddTodo extends TodoEvent {
 
 class UpdateTodo extends TodoEvent {
   final ToDoModel todo;
+  final ToDoModel oldTodo;
 
-  UpdateTodo(this.todo);
+  UpdateTodo(this.todo, this.oldTodo);
 }
 
 class DeleteTodo extends TodoEvent {
