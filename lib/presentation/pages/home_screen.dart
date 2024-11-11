@@ -68,6 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
               if (todoList.isEmpty) {
                 return const EmptyCardsPage();
               }
+              if (dropdownValue == 'Today') {
+                todoList = todoList.where((element) => element.date.day == DateTime.now().day).toList();
+              } else if (dropdownValue == 'Tomorrow') {
+                todoList = todoList.where((element) => element.date.day == DateTime.now().add(const Duration(days: 1)).day).toList();
+              } else if (dropdownValue == 'Next 7 days') {
+                todoList = todoList.where((element) => element.date.isAfter(DateTime.now().add(const Duration(days: 1)))).toList();
+              }
               return Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
