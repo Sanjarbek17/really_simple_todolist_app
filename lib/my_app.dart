@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 import 'package:really_simple_todolist_app/data/models/todo_model.dart';
-import 'package:really_simple_todolist_app/presentation/bloc/todo_bloc/todo_bloc.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:really_simple_todolist_app/presentation/pages/calendar_screen.dart';
 import 'package:really_simple_todolist_app/presentation/pages/focuse_screen.dart';
 import 'package:really_simple_todolist_app/presentation/pages/home_screen.dart';

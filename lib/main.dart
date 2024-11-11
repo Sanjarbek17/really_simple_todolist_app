@@ -4,10 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_theme.dart';
 import 'package:really_simple_todolist_app/data/repository/todo_repository.dart';
 import 'package:really_simple_todolist_app/data/services/todo_service.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/date_cubit.dart';
 
-import 'package:really_simple_todolist_app/presentation/bloc/theme_manager.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/theme_manager.dart';
 import 'package:really_simple_todolist_app/my_app.dart';
-import 'package:really_simple_todolist_app/presentation/bloc/todo_bloc/todo_bloc.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -30,11 +31,17 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeManager = Provider.of<ThemeManager>(context);
-    return BlocProvider(
-      create: (context) => TodoBloc(
-        todoRepository: TodoRepository(todoService: todoService),
-      )
-        ..add(GetTodo()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => TodoBloc(
+            todoRepository: TodoRepository(todoService: todoService),
+          )..add(GetTodo()),
+        ),
+        BlocProvider(
+          create: (context) => DateCubit(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Simple TodoList',
         darkTheme: darkTheme,

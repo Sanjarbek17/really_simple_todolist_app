@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/date_cubit.dart';
 
 class WeekDayList extends StatefulWidget {
   final DateTime now;
@@ -41,6 +43,7 @@ class _WeekDayListState extends State<WeekDayList> {
             child: InkWell(
               onTap: () {
                 now = tommorrow;
+                context.read<DateCubit>().setDate(now);
                 setState(() {});
               },
               child: Container(

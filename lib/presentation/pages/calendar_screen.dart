@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
 import 'package:really_simple_todolist_app/data/models/todo_model.dart';
-import 'package:really_simple_todolist_app/presentation/bloc/todo_bloc/todo_bloc.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/date_cubit.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/empty_cards_page.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/list_of_todo_card.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/today_or_completed_button.dart';
@@ -22,6 +23,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime now = DateTime.now();
   @override
   Widget build(BuildContext context) {
+    DateTime weekDayTime = context.watch<DateCubit>().state;
     return Center(
       child: SafeArea(
         child: Column(
@@ -97,9 +99,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           return const EmptyCardsPage();
                         }
                         if (isCompleted) {
-                          todoList = todoList.where((element) => element.isCompleted).toList();
+                          todoList = todoList
+                              .where(
+                                (element) => element.isCompleted && element.date.day == weekDayTime.day,
+                              )
+                              .toList();
                         } else {
-                          todoList = todoList.where((element) => element.date.day == now.day && !element.isCompleted).toList();
+                          todoList = todoList
+                              .where(
+                                (element) => element.date.day == now.day && !element.isCompleted && element.date.day == weekDayTime.day,
+                              )
+                              .toList();
                         }
                         return ListOfTodoCards(todoList: todoList);
                       }
