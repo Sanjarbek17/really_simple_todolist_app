@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_colors.dart';
-import 'package:really_simple_todolist_app/core/utils/data_list.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
+import 'package:really_simple_todolist_app/presentation/bloc/todo_bloc/todo_bloc.dart';
+import 'package:really_simple_todolist_app/presentation/widgets/empty_cards_page.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/list_of_todo_card.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/today_or_completed_button.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/weeks_day_list.dart';
@@ -15,6 +19,7 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   bool isCompleted = false;
+  DateTime now = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -31,23 +36,32 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          now = now.subtract(const Duration(days: 31));
+                          setState(() {});
+                        },
                         icon: const Icon(Icons.arrow_back_ios, color: CustomColors.text2),
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('FEBRUARY', style: context.tl),
-                          Text('2021', style: context.tm?.copyWith(color: CustomColors.text2)),
+                          Text(
+                            DateFormat.MMMM().format(now).toUpperCase(),
+                            style: context.tl,
+                          ),
+                          Text(now.year.toString(), style: context.tm?.copyWith(color: CustomColors.text2)),
                         ],
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          now = now.add(const Duration(days: 31));
+                          setState(() {});
+                        },
                         icon: const Icon(Icons.arrow_forward_ios, color: CustomColors.text2),
                       ),
                     ],
                   ),
-                  const WeekDayList(),
+                  WeekDayList(now: now),
                 ],
               ),
             ),
@@ -65,15 +79,33 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  ListOfTodoCards(
-                    todoList: isCompleted
-                        ? todoList
-                            .getRange(
-                              0,
-                              3,
-                            )
-                            .toList()
-                        : todoList.getRange(0, 1).toList(),
+                  BlocBuilder<TodoBloc, TodoState>(
+                    builder: (context, state) {
+                      if (state.status == TodoStatus.loading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (state.status == TodoStatus.error) {
+                        return const Center(
+                          child: Text('Error'),
+                        );
+                      }
+                      if (state.status == TodoStatus.loaded) {
+                        List<ToDoModel> todoList = state.todoList;
+                        return ListOfTodoCards(
+                          todoList: isCompleted
+                              ? todoList
+                                  .getRange(
+                                    0,
+                                    3,
+                                  )
+                                  .toList()
+                              : todoList.getRange(0, 1).toList(),
+                        );
+                      }
+                      return const EmptyCardsPage();
+                    },
                   ),
                 ],
               ),

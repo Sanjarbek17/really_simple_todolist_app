@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
+import 'package:really_simple_todolist_app/data/models/todo_model.dart';
 import 'package:really_simple_todolist_app/presentation/bloc/todo_bloc/todo_bloc.dart';
-import 'package:really_simple_todolist_app/core/utils/data_list.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/custom_dropdown_button.dart';
 import 'package:really_simple_todolist_app/gen/assets.gen.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/empty_cards_page.dart';
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             if (state.status == TodoStatus.loaded) {
-              todoList = state.todoList;
+              List<ToDoModel> todoList = state.todoList;
               if (todoList.isEmpty) {
                 return const EmptyCardsPage();
               }
