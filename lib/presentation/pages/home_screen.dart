@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/data/models/todo_model.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/theme_manager.dart';
 import 'package:really_simple_todolist_app/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:really_simple_todolist_app/presentation/widgets/custom_dropdown_button.dart';
 import 'package:really_simple_todolist_app/gen/assets.gen.dart';
@@ -42,11 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = context.watch<ThemeManager>().isDarkMode;
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           leading: IconButton(
-            icon: SvgPicture.asset(Assets.icons.drawer),
+            icon: SvgPicture.asset(Assets.icons.drawer, color: isDarkMode ? Colors.white : Colors.black),
             onPressed: () {},
           ),
           title: Text('Index', style: context.tl),
