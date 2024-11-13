@@ -57,8 +57,8 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: (context) => _authenticationRepository,
+    return RepositoryProvider(
+      create: (context) => _authenticationRepository,
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -96,26 +96,28 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
+  // final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get _navigator => _navigatorKey.currentState!;
+  // NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: _navigatorKey,
+      // navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
+                Navigator.pushAndRemoveUntil<void>(
+                  context,
                   MaterialPageRoute(builder: (_) => const MyApp()),
                   (route) => false,
                 );
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  MaterialPageRoute(builder: (_) => const StartScreen()),
+                Navigator.pushAndRemoveUntil<void>(
+                  context,
+                  MaterialPageRoute(builder: (context) => const StartScreen()),
                   (route) => false,
                 );
               case AuthenticationStatus.unknown:
