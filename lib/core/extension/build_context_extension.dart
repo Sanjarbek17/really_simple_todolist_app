@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
-extension UIThemeExtension on BuildContext{
-  
+extension CustomThemeExtension on BuildContext {
+  ColorScheme get theme => Theme.of(this).colorScheme;
+}
+
+extension UIThemeExtension on BuildContext {
   // * (default) TextTheme
   /// The largest text on the screen.
   TextStyle? get dm => Theme.of(this).textTheme.displayMedium;
@@ -24,7 +27,6 @@ extension UIThemeExtension on BuildContext{
   TextStyle? get bm => Theme.of(this).textTheme.bodyMedium;
   TextStyle? get bs => Theme.of(this).textTheme.bodySmall;
 
-  
   // * PrimaryTextTheme
   TextStyle? get pdl => Theme.of(this).primaryTextTheme.displayLarge;
   TextStyle? get pds => Theme.of(this).primaryTextTheme.displaySmall;

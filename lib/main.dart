@@ -12,6 +12,7 @@ import 'package:really_simple_todolist_app/presentation/blocs/theme_manager.dart
 import 'package:really_simple_todolist_app/my_app.dart';
 import 'package:really_simple_todolist_app/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:really_simple_todolist_app/presentation/pages/intro.dart';
+import 'package:really_simple_todolist_app/presentation/pages/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -56,7 +57,6 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    final themeManager = Provider.of<ThemeManager>(context);
     return RepositoryProvider.value(
       value: (context) => _userRepository,
       child: MultiBlocProvider(
@@ -80,8 +80,8 @@ class _AppState extends State<App> {
           title: 'Simple TodoList',
           darkTheme: darkTheme,
           theme: lightTheme,
-          themeMode: themeManager.themeMode,
-          home: const MyApp(),
+          themeMode: Provider.of<ThemeManager>(context).themeMode,
+          home: const AppView(),
         ),
       ),
     );
@@ -115,8 +115,7 @@ class _AppViewState extends State<AppView> {
                 );
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  //TODO: Change to login page
-                  MaterialPageRoute(builder: (_) => const Intro()),
+                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
                   (route) => false,
                 );
               case AuthenticationStatus.unknown:
