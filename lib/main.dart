@@ -12,7 +12,7 @@ import 'package:really_simple_todolist_app/presentation/blocs/theme_manager.dart
 import 'package:really_simple_todolist_app/my_app.dart';
 import 'package:really_simple_todolist_app/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:really_simple_todolist_app/presentation/pages/intro.dart';
-import 'package:really_simple_todolist_app/presentation/pages/register_screen.dart';
+import 'package:really_simple_todolist_app/presentation/pages/start_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -58,7 +58,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: (context) => _userRepository,
+      value: (context) => _authenticationRepository,
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -115,7 +115,7 @@ class _AppViewState extends State<AppView> {
                 );
               case AuthenticationStatus.unauthenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                  MaterialPageRoute(builder: (_) => const StartScreen()),
                   (route) => false,
                 );
               case AuthenticationStatus.unknown:
@@ -126,9 +126,7 @@ class _AppViewState extends State<AppView> {
         );
       },
       onGenerateRoute: (_) => MaterialPageRoute<void>(
-        builder: (_) => const Scaffold(
-          body: Intro(),
-        ),
+        builder: (_) => const Intro(),
       ),
     );
   }

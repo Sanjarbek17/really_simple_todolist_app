@@ -15,15 +15,21 @@ class RegisterScreen extends StatelessWidget {
       themeMode: Provider.of<ThemeManager>(context).themeMode,
       home: Scaffold(
         appBar: AppBar(
-          leading: const Icon(Icons.arrow_back_ios),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Login'),
+              // const SizedBox(height: 50),
+              const Text('Register', style: TextStyle(fontSize: 32)),
+              const SizedBox(height: 50),
+              const Text('Username'),
               const SizedBox(height: 10),
               TextField(
                 cursorColor: context.theme.primary,
@@ -64,8 +70,8 @@ class RegisterScreen extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {},
-                      style: ElevatedButton.styleFrom(backgroundColor: context.theme.primary, minimumSize: const Size(100, 50)),
-                      child: Text('Login', style: context.tl?.copyWith(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: context.theme.primary, minimumSize: const Size(100, 50)),
+                      child: Text('Register', style: context.tl?.copyWith(color: Colors.white)),
                     ),
                   ),
                 ],
