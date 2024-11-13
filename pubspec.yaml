@@ -48,6 +48,7 @@ dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^8.1.4
+  formz: ^0.8.0
   
 
 dev_dependencies:
