@@ -137,7 +137,6 @@ class _ConfirmPasswordInput extends StatelessWidget {
     final displayError = context.select(
       (LoginBloc bloc) => bloc.state.confirmPassword.displayError,
     );
-    print('displayError: $displayError');
     return TextField(
       onChanged: (password) => context.read<LoginBloc>().add(
             ConfirmLoginPasswordChanged(

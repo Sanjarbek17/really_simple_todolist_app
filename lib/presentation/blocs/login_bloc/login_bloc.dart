@@ -28,7 +28,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(
       state.copyWith(
         username: username,
-        isValid: Formz.validate([state.password, username]),
+        isValid: Formz.validate([state.password, username, state.confirmPassword]),
       ),
     );
   }
@@ -41,7 +41,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(
       state.copyWith(
         password: password,
-        isValid: Formz.validate([password, state.username]),
+        isValid: Formz.validate([password, state.username, state.confirmPassword]),
       ),
     );
   }
@@ -51,12 +51,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) {
     final confirmPassword = ConfirmPassword.dirty(event.confirmPassword, event.password);
-    print('confirmPassword: ${confirmPassword.displayError}');
-    print('event.password: ${event.confirmPassword}');
     emit(
       state.copyWith(
         confirmPassword: confirmPassword,
-        isValid: event.password == event.confirmPassword,
+        isValid: Formz.validate([state.password, state.username, confirmPassword]),
       ),
     );
   }
