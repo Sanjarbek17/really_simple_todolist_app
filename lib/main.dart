@@ -96,27 +96,28 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
-  // final _navigatorKey = GlobalKey<NavigatorState>();
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
-  // NavigatorState get _navigator => _navigatorKey.currentState!;
+  NavigatorState get _navigator => _navigatorKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // navigatorKey: _navigatorKey,
+      darkTheme: darkTheme,
+      theme: lightTheme,
+      themeMode: Provider.of<ThemeManager>(context).themeMode,
+      navigatorKey: _navigatorKey,
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                Navigator.pushAndRemoveUntil<void>(
-                  context,
+                _navigator.pushAndRemoveUntil<void>(
                   MaterialPageRoute(builder: (_) => const MyApp()),
                   (route) => false,
                 );
               case AuthenticationStatus.unauthenticated:
-                Navigator.pushAndRemoveUntil<void>(
-                  context,
+                _navigator.pushAndRemoveUntil<void>(
                   MaterialPageRoute(builder: (context) => const StartScreen()),
                   (route) => false,
                 );

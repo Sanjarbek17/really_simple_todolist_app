@@ -7,7 +7,9 @@ class AuthenticationRepository {
 
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
+    // first emit the status of unauthorized
     yield AuthenticationStatus.unauthenticated;
+    // then emit the status of authorized
     yield* _controller.stream;
   }
 
@@ -17,7 +19,7 @@ class AuthenticationRepository {
   }) async {
     await Future.delayed(
       const Duration(milliseconds: 300),
-      () => _controller.add(AuthenticationStatus.unauthenticated),
+      () => _controller.add(AuthenticationStatus.authenticated),
     );
   }
 

@@ -25,13 +25,13 @@ final ThemeData lightTheme = ThemeData(
 
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
-  primaryColor: CustomColors.purple,
+  primaryColor: CustomColors.primaryColor,
   colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.dark,
     seedColor: CustomColors.purple,
     primary: CustomColors.purple,
     onPrimary: Colors.white,
-    secondary: CustomColors.purple,
+    secondary: CustomColors.secondaryColor,
     surface: CustomColors.purple,
     onSurface: Colors.white,
   ),

@@ -14,6 +14,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         super(const LoginState()) {
     on<LoginUsernameChanged>(_onUsernameChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
+    on<ConfirmLoginPasswordChanged>(_onConfirmPasswordChanged);
     on<LoginSubmitted>(_onSubmitted);
   }
 
@@ -41,6 +42,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       state.copyWith(
         password: password,
         isValid: Formz.validate([password, state.username]),
+      ),
+    );
+  }
+
+  void _onConfirmPasswordChanged(
+    ConfirmLoginPasswordChanged event,
+    Emitter<LoginState> emit,
+  ) {
+    final confirmPassword = ConfirmPassword.dirty(event.confirmPassword, event.password);
+    print('confirmPassword: ${confirmPassword.displayError}');
+    print('event.password: ${event.confirmPassword}');
+    emit(
+      state.copyWith(
+        confirmPassword: confirmPassword,
+        isValid: event.password == event.confirmPassword,
       ),
     );
   }

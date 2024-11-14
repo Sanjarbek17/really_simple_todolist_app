@@ -1,11 +1,28 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:really_simple_todolist_app/core/extension/build_context_extension.dart';
 import 'package:really_simple_todolist_app/core/theme/custom_theme.dart';
+import 'package:really_simple_todolist_app/presentation/blocs/login_bloc/login_bloc.dart';
 import 'package:really_simple_todolist_app/presentation/blocs/theme_manager.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => LoginBloc(
+        authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context),
+      ),
+      child: const RegisterForm(),
+    );
+  }
+}
+
+class RegisterForm extends StatelessWidget {
+  const RegisterForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,51 +48,17 @@ class RegisterScreen extends StatelessWidget {
               const SizedBox(height: 50),
               const Text('Username'),
               const SizedBox(height: 10),
-              TextField(
-                cursorColor: context.theme.primary,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                  hintText: 'Enter your Username',
-                ),
-              ),
+              _UsernameInput(),
               const SizedBox(height: 30),
               const Text('Password'),
               const SizedBox(height: 10),
-              TextField(
-                cursorColor: context.theme.primary,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                  hintText: 'Enter your Password',
-                ),
-              ),
+              _PasswordInput(),
               const SizedBox(height: 30),
               const Text('Confirm Password'),
               const SizedBox(height: 10),
-              TextField(
-                cursorColor: context.theme.primary,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                  hintText: 'Confirm your Password',
-                ),
-              ),
+              _ConfirmPasswordInput(),
               const SizedBox(height: 50),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: context.theme.primary, minimumSize: const Size(100, 50)),
-                      child: Text('Register', style: context.tl?.copyWith(color: Colors.white)),
-                    ),
-                  ),
-                ],
-              ),
+              const _RegisterButton(),
               // Row(
               //   children: [
               //     const Expanded(child: Divider()),
@@ -86,6 +69,89 @@ class RegisterScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _RegisterButton extends StatelessWidget {
+  const _RegisterButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final isValid = context.select((LoginBloc bloc) => bloc.state.isValid);
+    return Row(
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            onPressed: isValid ? () => context.read<LoginBloc>().add(const LoginSubmitted()) : null,
+            style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: context.theme.primary, minimumSize: const Size(100, 50)),
+            child: Text('Login', style: context.tl?.copyWith(color: Colors.white)),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _UsernameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final displayError = context.select((LoginBloc bloc) => bloc.state.username.displayError);
+    return TextField(
+      key: const Key('loginForm_usernameInput_textField'),
+      onChanged: (username) => context.read<LoginBloc>().add(LoginUsernameChanged(username)),
+      cursorColor: context.theme.primary,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        hintText: 'Enter your Username',
+        errorText: displayError != null ? 'Invalid username' : null,
+      ),
+    );
+  }
+}
+
+class _PasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final displayError = context.select((LoginBloc bloc) => bloc.state.password.displayError);
+    return TextField(
+      onChanged: (password) => context.read<LoginBloc>().add(LoginPasswordChanged(password)),
+      cursorColor: context.theme.primary,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        hintText: 'Enter your Password',
+        errorText: displayError != null ? 'Invalid password' : null,
+      ),
+    );
+  }
+}
+
+class _ConfirmPasswordInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final displayError = context.select(
+      (LoginBloc bloc) => bloc.state.confirmPassword.displayError,
+    );
+    print('displayError: $displayError');
+    return TextField(
+      onChanged: (password) => context.read<LoginBloc>().add(
+            ConfirmLoginPasswordChanged(
+              context.read<LoginBloc>().state.password.value,
+              password,
+            ),
+          ),
+      cursorColor: context.theme.primary,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+        hintText: 'Confirm your Password',
+        errorText: displayError != null ? 'Passwords does not match' : null,
       ),
     );
   }

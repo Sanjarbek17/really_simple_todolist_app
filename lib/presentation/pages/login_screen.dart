@@ -25,9 +25,7 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
         body: BlocProvider(
-          create: (context) => LoginBloc(
-            authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context)
-          ),
+          create: (context) => LoginBloc(authenticationRepository: RepositoryProvider.of<AuthenticationRepository>(context)),
           child: const LoginForm(),
         ),
       ),
@@ -66,23 +64,7 @@ class LoginForm extends StatelessWidget {
             const SizedBox(height: 10),
             _PasswordInput(),
             const SizedBox(height: 50),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: context.theme.primary,
-                      minimumSize: const Size(100, 50),
-                    ),
-                    child: Text('Login', style: context.tl?.copyWith(color: Colors.white)),
-                  ),
-                ),
-              ],
-            ),
+            const _LoginButton(),
             // Row(
             //   children: [
             //     const Expanded(child: Divider()),
@@ -97,14 +79,33 @@ class LoginForm extends StatelessWidget {
   }
 }
 
+class _LoginButton extends StatelessWidget {
+  const _LoginButton();
+
+  @override
+  Widget build(BuildContext context) {
+    final isValid = context.select((LoginBloc bloc) => bloc.state.isValid);
+    return Row(
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            onPressed: isValid ? () => context.read<LoginBloc>().add(const LoginSubmitted()) : null,
+            style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), backgroundColor: context.theme.primary, minimumSize: const Size(100, 50)),
+            child: Text('Login', style: context.tl?.copyWith(color: Colors.white)),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 class _UsernameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final displayError = context.select((LoginBloc bloc) => bloc.state.username.displayError);
     return TextField(
-      onChanged: (username) {
-        context.read<LoginBloc>().add(LoginUsernameChanged(username));
-      },
+      key: const Key('loginForm_usernameInput_textField'),
+      onChanged: (username) => context.read<LoginBloc>().add(LoginUsernameChanged(username)),
       cursorColor: context.theme.primary,
       decoration: InputDecoration(
         border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),

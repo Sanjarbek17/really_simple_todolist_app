@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           centerTitle: true,
           leading: IconButton(
+            // ignore: deprecated_member_use
             icon: SvgPicture.asset(Assets.icons.drawer, color: isDarkMode ? Colors.white : Colors.black),
             onPressed: () {},
           ),
